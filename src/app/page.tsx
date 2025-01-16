@@ -7,7 +7,7 @@ export default function Home() {
         <SignInButton mode="modal">
           <button className="bg-red-500">
             Sign in
-          </button>
+          </button> 
         </SignInButton>
       </SignedOut>
       <SignedIn>
