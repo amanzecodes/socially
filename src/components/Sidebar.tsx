@@ -60,13 +60,13 @@ return (
             </div>
             <div className="flex items-center text-muted-foreground">
               <LinkIcon className="w-4 h-4 mr-2 shrink-0" />
-              {user.website ? (
+              {/* {user.website ? (
                 <a href={`${user.website}`} className="hover:underline truncate" target="_blank">
                   {user.website}
                 </a>
               ) : (
                 "No website"
-              )}
+              )} */}
             </div>
           </div>
         </div>
