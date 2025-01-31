@@ -20,7 +20,12 @@ function CreatePost() {
     if(!content.trim() && !imageUrl) return;
     setIsPosting(true);
     try {
-      await createPost(content, imageUrl);
+      const result = await createPost(content, imageUrl);
+      if(result.success) {
+        setContent("");
+        setImageUrl("");
+        setShowImageUpload(false);
+      }
     } catch (error) {
       
     } finally {
