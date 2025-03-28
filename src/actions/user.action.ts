@@ -1,5 +1,4 @@
 'use server';
-
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
@@ -56,7 +55,7 @@ export async function getUserByClerkId(clerkId:string){
 export async function getDBUserId() {
     const { userId:clerkId } = await auth();
 
-    if(!clerkId) throw new Error("UNauthorized");
+    if(!clerkId) throw new Error("Unauthorized");
 
     const user = await getUserByClerkId(clerkId)
 

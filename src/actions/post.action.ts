@@ -1,4 +1,4 @@
-'user server';
+'use server';
 
 import prisma from "@/lib/prisma";
 import { getDBUserId } from "./user.action";
@@ -8,6 +8,8 @@ export async function createPost(content:string, image:string) {
   try {
   const userId = await getDBUserId();
 
+  if(!userId) return
+
   const post = await prisma.post.create({
     data:{
         content,
@@ -16,7 +18,7 @@ export async function createPost(content:string, image:string) {
     }
   })
 
-  revalidatePath('/')
+  revalidatePath('/') //purge the cache for the home page
   return {success:true, post}
   } catch (error) {
     console.error('Error creating post', error);
