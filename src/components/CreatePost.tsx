@@ -27,8 +27,8 @@ function CreatePost() {
         setContent("");
         setImageUrl("");
         setShowImageUpload(false);
+        toast.success("Post created successfully");
       }
-      toast.success("Post created successfully");
     } catch (error) {
       console.error("Failed to create post", error)
       toast.error("Failed to create post")
@@ -41,7 +41,7 @@ function CreatePost() {
       <div className="space-y-4">
         <div className="flex space-x-4">
           <Avatar className="w-10 h-10">
-          <AvatarImage src={user?.imageUrl || 'avatar.png'} />
+          <AvatarImage src={user?.imageUrl || 'avatar.png'} className="rounded-full"/>
           </Avatar>
           <Textarea
             className="min-h-[100px] resize-none border-none focus:ring-0 p-0 text-base"

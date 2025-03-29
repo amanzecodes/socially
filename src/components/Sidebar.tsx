@@ -25,7 +25,7 @@ return (
             href={`/profile/${user.username}`}
             className="flex flex-col items-center justify-center"
           >
-            <Avatar className="w-20 h-20 border-2 ">
+            <Avatar className="w-20 h-20 border-2">
               <AvatarImage src={user.image || "/avatar.png"} />
             </Avatar>
 
