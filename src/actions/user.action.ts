@@ -145,5 +145,10 @@ export async function toggleFollow(targetUserId: string) {
         }),
       ]);
     }
-  } catch (error) {}
+
+    return { success: true };
+  } catch (error) {
+    console.log("Error in toggle follow", error);
+    return { success: false, error: "Erro toggling follow" };
+  }
 }
