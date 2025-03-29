@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import FollowButton from "./FollowButton";
 
 const WhoToFollow = async () => {
   //checks if there is an authenticated user to access this page
