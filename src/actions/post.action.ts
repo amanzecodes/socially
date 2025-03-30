@@ -3,8 +3,6 @@
 import prisma from "@/lib/prisma";
 import { getDBUserId } from "./user.action";
 import { revalidatePath } from "next/cache";
-import { create } from "domain";
-
 export async function createPost(content:string, image:string) {
   try {
   const userId = await getDBUserId();
@@ -37,6 +35,7 @@ export async function getPosts() {
       include: {
         author: {
           select: {
+            id:true,
             name: true,
             image: true,
             username: true
