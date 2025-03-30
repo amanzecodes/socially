@@ -112,7 +112,7 @@ export async function toggleLike(postId: string) {
         }
       })
     } else {
-      //like and create ntification (only if likeing someone else's post)
+      //like and create notification (only if liking someone else's post)
       await prisma.$transaction([
         prisma.like.create({
           data: {
@@ -142,5 +142,54 @@ export async function toggleLike(postId: string) {
   } catch (error) {
     console.error("Failed to toggle like: ", error)
     return { success: false, error: "Failed to toggle like" };
+  }
+}
+
+export async function createComment(postId: string, content: string) {
+  try {
+    const userId = await getDBUserId();
+
+    if (!userId) return;
+    if (!content) throw new Error("Content is required");
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { authorId: true },
+    });
+
+    if (!post) throw new Error("Post not found");
+
+    // Create comment and notification in a transaction
+    const [comment] = await prisma.$transaction(async (tx) => {
+      // Create comment first
+      const newComment = await tx.comment.create({
+        data: {
+          content,
+          authorId: userId,
+          postId,
+        },
+      });
+
+      // Create notification if commenting on someone else's post
+      if (post.authorId !== userId) {
+        await tx.notification.create({
+          data: {
+            type: "COMMENT",
+            userId: post.authorId,
+            creatorId: userId,
+            postId,
+            commentId: newComment.id,
+          },
+        });
+      }
+
+      return [newComment];
+    });
+
+    revalidatePath(`/`);
+    return { success: true, comment };
+  } catch (error) {
+    console.error("Failed to create comment:", error);
+    return { success: false, error: "Failed to create comment" };
   }
 }
