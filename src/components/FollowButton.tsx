@@ -11,17 +11,20 @@ type FollowButtonProps = {
 };
 const FollowButton = ({ userId }: FollowButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [followText, setFollowText] = useState("Follow");
 
 
   const handleFollow = async () => {
     setIsLoading(true)
     try {
-      await toggleFollow(userId)
+      await toggleFollow(userId);
+      toast.success("success")
     } catch (error) {
       console.log("Error following user")
       toast.error("Error following user");
     }finally{ 
         setIsLoading(false)
+        setFollowText("unfollow");
     }
   };
   return (
@@ -32,7 +35,7 @@ const FollowButton = ({ userId }: FollowButtonProps) => {
       disabled={isLoading}
       className="w-20"
     >
-      {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : "Follow"}
+      {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : `${followText}`}
     </Button>
   );
 };

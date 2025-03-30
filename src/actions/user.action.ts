@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export async function syncUser() {
   try {
@@ -55,7 +56,7 @@ export async function getUserByClerkId(clerkId: string) {
 export async function getDBUserId() {
   const { userId: clerkId } = await auth();
 
-  if (!clerkId) throw new Error("Unauthorized");
+  if (!clerkId) return null
 
   const user = await getUserByClerkId(clerkId);
 
@@ -67,6 +68,7 @@ export async function getDBUserId() {
 export async function getRandomUsers() {
   try {
     const userId = await getDBUserId();
+    if(!userId) return []
 
     //get 3 random users exclude current user & users that current user already follow
     const randomUser = await prisma.user.findMany({
@@ -108,6 +110,7 @@ export async function getRandomUsers() {
 export async function toggleFollow(targetUserId: string) {
   try {
     const userId = await getDBUserId();
+    if(!userId) return
     if (userId === targetUserId) throw new Error("This action is not allowed");
 
     const existingFollow = await prisma.follows.findUnique({
@@ -145,6 +148,8 @@ export async function toggleFollow(targetUserId: string) {
         }),
       ]);
     }
+
+    revalidatePath("/")
 
     return { success: true };
   } catch (error) {
