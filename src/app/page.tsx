@@ -1,4 +1,5 @@
 import { getPosts } from "@/actions/post.action";
+import { getDBUserId } from "@/actions/user.action";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
 import WhoToFollow from "@/components/WhoToFollow";
@@ -7,6 +8,7 @@ import { currentUser } from "@clerk/nextjs/server";
 export default async function Home() {
   const user = await currentUser()
   const posts = await getPosts()
+  const dbUserId = await getDBUserId()
 
   console.log({posts})
 
@@ -17,7 +19,7 @@ export default async function Home() {
 
         <div className="space-y-6">
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <PostCard key={post.id} post={post} dbUserId={dbUserId}/>
           ))}
         </div>
       </div>
