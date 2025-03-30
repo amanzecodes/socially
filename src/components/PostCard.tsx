@@ -68,7 +68,7 @@ const PostCard = ({ post, dbUserId }: PostCardprops) => {
       if (result.success) toast.success("Post deleted successfully");
       else throw new Error("Failed to delete post");
     } catch (error) {
-      toast.error("Failed to delete post");
+      toast.error("This action is not allowed");
     } finally {
       setIsDeleting(false);
     }
