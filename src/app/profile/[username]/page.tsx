@@ -1,6 +1,6 @@
 import { getProfileByUsername, getUSerLikedPosts, getUserPosts, isFollowing } from "@/actions/profile.action"
 import { notFound } from "next/navigation"
-import ProfilePageClient from "./ProfilePageClient"
+import ProfilePageClient from "../ProfilePageClient"
 
 
 export async function generateMetadata({params}: {params: {username: string}}){
@@ -21,7 +21,7 @@ const ProfilePage = async ({params}: {params: {username: string}}) => {
     getUSerLikedPosts(user.id),
     isFollowing(user.id)
   ])
-  if(!user)
+  
   return (
     <ProfilePageClient 
     user={user}
